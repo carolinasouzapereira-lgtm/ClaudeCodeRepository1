@@ -6,7 +6,9 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Estado atual
 
-Scaffold recém-criado com `create-next-app` (Next.js 16.4, React 19.3, TypeScript 5, Tailwind CSS 4). Só existem `app/layout.tsx`, `app/page.tsx` e `app/globals.css`. Tudo marcado como **(planejado)** abaixo é convenção acordada, mas ainda não está instalado nem criado — instalar/criar quando for usar pela primeira vez.
+Next.js 16.4, React 19.3, TypeScript 5, Tailwind CSS 4. O app é a landing page de uma pet shop fictícia ("Patinhas Petshop"), em pt-BR: uma única rota (`app/page.tsx`) que só monta, em ordem, as seções de `components/` (`SiteHeader`, `Hero`, `Services`, `About`, `Testimonials`, `Contact`, `SiteFooter`). Todas são Server Components estáticos, sem dados externos — o conteúdo fica em arrays dentro de cada componente. Tudo marcado como **(planejado)** abaixo é convenção acordada, mas ainda não está instalado nem criado — instalar/criar quando for usar pela primeira vez.
+
+Navegação por âncoras: o header e os CTAs apontam para `#servicos`, `#sobre` e `#contato`. Cada seção-alvo tem esse `id` + `scroll-mt-20` (compensa o header `sticky`) e um `aria-labelledby` apontando para o `id` do seu `<h2>`. O scroll suave vem de `scroll-smooth` + `data-scroll-behavior="smooth"` no `<html>` em `app/layout.tsx`. Ao criar/renomear uma seção, manter link, `id` e `scroll-mt` em sincronia.
 
 ## Commands
 
@@ -28,7 +30,7 @@ Ambiente (Windows / PowerShell 5.1):
 - Next.js 16 (App Router), React 19, TypeScript (strict)
 - Tailwind CSS 4
 - shadcn/ui **(planejado)**
-- React Hook Form + Zod para validação **(planejado)**
+- React Hook Form + Zod para validação **(planejado)**. Zod 4: usar `z.email()` (não `z.string().email()`) e `z.flattenError(err)` (não `err.flatten()`) — as formas antigas estão depreciadas
 
 ## Architecture
 
@@ -37,7 +39,7 @@ Ambiente (Windows / PowerShell 5.1):
 - Server Components por padrão — só adicionar `'use client'` quando usar hooks/eventos/browser APIs
 - Mutações via Server Actions em `actions/` **(planejado)** — NUNCA chamar DB direto em Client Components
 - `components/ui/` — primitivos reutilizáveis (shadcn) **(planejado)**
-- `components/` — componentes de feature **(planejado)**
+- `components/` — seções da landing page, uma por arquivo, com export nomeado (`export function Hero`)
 - `lib/` — helpers, clients (supabase, stripe), configurações **(planejado)**
 - `types/` — tipos globais e schemas Zod compartilhados **(planejado)**
 
@@ -48,7 +50,8 @@ Ambiente (Windows / PowerShell 5.1):
 ### Tailwind 4
 
 - Não existe `tailwind.config.ts` nem `postcss.config`. O Tailwind é carregado pelo loader `@tailwindcss/turbopack` declarado em `next.config.ts` — não remover essa regra
-- Design tokens ficam no bloco `@theme` de `app/globals.css`. Novos tokens entram lá antes de serem usados
+- Design tokens ficam no bloco `@theme inline` de `app/globals.css` (o `inline` é necessário porque os tokens referenciam variáveis de `:root`). Novos tokens entram lá antes de serem usados
+- Paleta atual: `background`, `foreground`, `surface` e `muted` são variáveis em `:root` com override em `prefers-color-scheme: dark`; `brand` (rosa), `brand-dark` (hover) e `accent` (verde-água) são fixos no `@theme`. Usar essas classes (`bg-surface`, `text-brand`, `text-muted`…) em vez de cores cruas do Tailwind
 - As fontes Geist são expostas como variáveis CSS em `app/layout.tsx` e mapeadas para `--font-sans` / `--font-mono` no `@theme`
 
 ## Code Style
@@ -63,6 +66,10 @@ Ambiente (Windows / PowerShell 5.1):
 - `NEXT_PUBLIC_*` apenas para valores seguros no client
 - Segredos (DB, API keys) apenas em Server Actions ou Route Handlers
 - `.env*` está no `.gitignore`. Ainda não existe `.env.example` — criar junto com a primeira variável e manter atualizado
+
+## Skills do projeto
+
+`.claude/skills/` tem `frontend-design`, `vercel-react-best-practices` e `web-design-guidelines` (versões travadas em `skills-lock.json`). As duas da Vercel são symlinks para `.agents/skills/` — editar lá, não no link. Consultar `vercel-react-best-practices` ao mexer em performance de React/Next e `web-design-guidelines` ao revisar UI.
 
 ## Workflow
 
