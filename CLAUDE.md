@@ -65,7 +65,7 @@ Ambiente (Windows / PowerShell 5.1):
 
 - `NEXT_PUBLIC_*` apenas para valores seguros no client
 - Segredos (DB, API keys) apenas em Server Actions ou Route Handlers
-- `.env*` está no `.gitignore`. Ainda não existe `.env.example` — criar junto com a primeira variável e manter atualizado
+- `.env*` está no `.gitignore`, com exceção de `.env.example` (modelo versionado). Toda variável nova entra no `.env.example` junto com o código que a usa
 
 ## Skills do projeto
 

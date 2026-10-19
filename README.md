@@ -43,6 +43,8 @@ npm run dev
 
 Depois, abra [http://localhost:3000](http://localhost:3000).
 
+Variáveis de ambiente: o app ainda não usa nenhuma, mas o modelo fica em `.env.example`. Quando precisar, copie para `.env.local` e preencha.
+
 ## Scripts
 
 | Comando              | O que faz                                        |
