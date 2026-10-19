@@ -1,36 +1,59 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Patinhas Petshop 🐾
 
-## Getting Started
+Landing page de uma pet shop fictícia, a **Patinhas Petshop**, feita em pt-BR como projeto de estudo com Next.js e Claude Code.
 
-First, run the development server:
+É uma página única, estática e responsiva, que apresenta os serviços da loja (banho e tosa, veterinário, hotel e creche, loja e rações), a história da marca, depoimentos de clientes e as formas de contato. Tem suporte a tema claro/escuro automático, conforme a preferência do sistema.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+## Tecnologias
+
+- [Next.js 16](https://nextjs.org) (App Router, Turbopack, Cache Components)
+- [React 19](https://react.dev)
+- [TypeScript 5](https://www.typescriptlang.org) em modo `strict`
+- [Tailwind CSS 4](https://tailwindcss.com), carregado pelo loader `@tailwindcss/turbopack`
+- Fonte [Geist](https://vercel.com/font) via `next/font`
+- ESLint 9 (flat config) com `eslint-config-next`
+
+## Estrutura
+
+```
+app/
+  layout.tsx      # <html> com fontes, tema e scroll suave
+  page.tsx        # monta as seções da landing page, em ordem
+  globals.css     # design tokens do Tailwind (@theme inline)
+components/
+  site-header.tsx # cabeçalho fixo com navegação por âncoras
+  hero.tsx
+  services.tsx    # #servicos
+  about.tsx       # #sobre
+  testimonials.tsx
+  contact.tsx     # #contato
+  site-footer.tsx
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Todas as seções são Server Components sem dados externos: o conteúdo fica em arrays dentro de cada componente. A navegação usa âncoras (`#servicos`, `#sobre`, `#contato`) com rolagem suave.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Como rodar
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Pré-requisito: Node.js 20.9 ou superior.
 
-## Learn More
+```bash
+npm install
+npm run dev
+```
 
-To learn more about Next.js, take a look at the following resources:
+Depois, abra [http://localhost:3000](http://localhost:3000).
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Scripts
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+| Comando              | O que faz                                        |
+| -------------------- | ------------------------------------------------ |
+| `npm run dev`        | Servidor de desenvolvimento (porta 3000)         |
+| `npm run build`      | Build de produção                                |
+| `npm run start`      | Sobe o build de produção                         |
+| `npm run lint`       | Roda o ESLint                                    |
+| `npm run type-check` | Gera os tipos do Next (`next typegen`) e roda o `tsc` |
 
-## Deploy on Vercel
+## Próximos passos
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- Componentes de UI com shadcn/ui
+- Formulário de contato com React Hook Form + Zod, enviado por Server Action
